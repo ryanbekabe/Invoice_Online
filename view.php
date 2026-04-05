@@ -7,16 +7,17 @@ if (!isset($_GET['id'])) {
     exit;
 }
 
-$id = intval($_GET['id']);
+$hash_id = $conn->real_escape_string($_GET['id']);
 $user_id = $_SESSION['user_id'];
 
-$sql = "SELECT * FROM invoices WHERE id = $id AND user_id = $user_id";
+$sql = "SELECT * FROM invoices WHERE hash_id = '$hash_id' AND user_id = $user_id";
 $result = $conn->query($sql);
 
 if ($result->num_rows == 0) {
     die("Invoice not found.");
 }
 $invoice = $result->fetch_assoc();
+$id = $invoice['id'];
 
 $sql_items = "SELECT * FROM invoice_items WHERE invoice_id = $id";
 $items_result = $conn->query($sql_items);

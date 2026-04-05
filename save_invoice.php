@@ -23,6 +23,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($conn->query($sql) === TRUE) {
         $invoice_id = $conn->insert_id;
         
+        $hash_id = md5($invoice_id . $invoice_number);
+        $conn->query("UPDATE invoices SET hash_id = '$hash_id' WHERE id = $invoice_id");
+        
         if(isset($_POST['items']) && is_array($_POST['items'])){
             foreach($_POST['items'] as $item){
                 $desc = $conn->real_escape_string($item['description']);
@@ -36,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
         
-        header("Location: view.php?id=" . $invoice_id);
+        header("Location: view.php?id=" . $hash_id);
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }

@@ -77,7 +77,7 @@ $result = $conn->query($sql);
                                         </td>
                                         <td>
                                             <div class="actions">
-                                                <a href="view.php?id=<?= $row['id'] ?>"><i class="fa-regular fa-eye"></i></a>
+                                                <a href="view.php?id=<?= htmlspecialchars($row['hash_id']) ?>"><i class="fa-regular fa-eye"></i></a>
                                                 <a href="#" class="text-danger"><i class="fa-regular fa-trash-can"></i></a>
                                             </div>
                                         </td>

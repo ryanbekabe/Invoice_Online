@@ -64,6 +64,14 @@ if($check_user_inv && $check_user_inv->num_rows == 0) {
     $conn->query("ALTER TABLE invoices ADD user_id INT(11) AFTER id");
 }
 
+// Add hash_id to invoices if not exists for obfuscated URLs
+$check_hash_inv = $conn->query("SHOW COLUMNS FROM invoices LIKE 'hash_id'");
+if($check_hash_inv && $check_hash_inv->num_rows == 0) {
+    $conn->query("ALTER TABLE invoices ADD hash_id VARCHAR(32) UNIQUE AFTER id");
+    // Generate hashes for any existing data
+    $conn->query("UPDATE invoices SET hash_id = MD5(CONCAT(id, invoice_number)) WHERE hash_id IS NULL");
+}
+
 // Ensure the status column uses the updated Indonesian ENUM translations
 $conn->query("ALTER TABLE invoices MODIFY COLUMN status ENUM('Draft', 'Terkirim', 'Lunas', 'Jatuh Tempo') DEFAULT 'Draft'");
 
