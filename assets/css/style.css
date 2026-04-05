@@ -18,6 +18,20 @@
     --status-overdue-text: #B91C1C;
 }
 
+body.theme-matcha {
+    --primary: #4B917D;
+    --primary-hover: #3D7A68;
+    --background: #F4F7F5;
+    --surface: #FFFFFF;
+}
+
+body.theme-rose {
+    --primary: #E1788A;
+    --primary-hover: #CE6577;
+    --background: #FFF5F6;
+    --surface: #FFFFFF;
+}
+
 * {
     box-sizing: border-box;
     margin: 0;

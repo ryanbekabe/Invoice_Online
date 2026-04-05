@@ -15,7 +15,7 @@ $invoice_num = 'INV-' . date('Ymd') . '-' . rand(1000, 9999);
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body>
+<body class="<?= htmlspecialchars($global_theme) ?>">
     <div class="sidebar">
         <div class="logo">
             <i class="fa-solid fa-file-invoice-dollar"></i>

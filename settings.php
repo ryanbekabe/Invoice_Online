@@ -10,16 +10,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $company_address1 = $conn->real_escape_string($_POST['company_address1']);
     $company_address2 = $conn->real_escape_string($_POST['company_address2']);
     $company_email = $conn->real_escape_string($_POST['company_email']);
+    $theme = $conn->real_escape_string($_POST['theme']);
 
     $update = "UPDATE user_settings SET 
                company_name = '$company_name',
                company_address1 = '$company_address1',
                company_address2 = '$company_address2',
-               company_email = '$company_email'
+               company_email = '$company_email',
+               theme = '$theme'
                WHERE user_id = $user_id";
     
     if($conn->query($update)) {
         $success_msg = "Pengaturan berhasil disimpan!";
+        $global_theme = $theme; // Update local variable for immediate UI refresh
     }
 }
 
@@ -37,7 +40,7 @@ $settings = $setting_res->fetch_assoc();
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body>
+<body class="<?= htmlspecialchars($global_theme) ?>">
     <div class="sidebar">
         <div class="logo">
             <i class="fa-solid fa-file-invoice-dollar placeholder-icon"></i>
@@ -89,6 +92,15 @@ $settings = $setting_res->fetch_assoc();
                     <div class="form-group">
                         <label>Email Perusahaan</label>
                         <input type="email" name="company_email" class="form-control" value="<?= htmlspecialchars($settings['company_email'] ?? 'hello@yourcompany.com') ?>" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tema UI Aplikasi</label>
+                        <select name="theme" class="form-control">
+                            <option value="theme-default" <?= ($settings['theme'] ?? '') == 'theme-default' ? 'selected' : '' ?>>Indigo (Biru/Ungu Lembut)</option>
+                            <option value="theme-matcha" <?= ($settings['theme'] ?? '') == 'theme-matcha' ? 'selected' : '' ?>>Matcha (Hijau Lembut)</option>
+                            <option value="theme-rose" <?= ($settings['theme'] ?? '') == 'theme-rose' ? 'selected' : '' ?>>Rose (Merah Muda Lembut)</option>
+                        </select>
                     </div>
 
                     <div style="margin-top: 2rem;">

@@ -97,7 +97,7 @@ $settings = $settings_result->fetch_assoc() ?: [
         }
     </style>
 </head>
-<body>
+<body class="<?= htmlspecialchars($global_theme) ?>">
     <div class="sidebar">
         <div class="logo">
             <i class="fa-solid fa-file-invoice-dollar placeholder-icon"></i>

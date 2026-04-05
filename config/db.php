@@ -64,6 +64,9 @@ if($check_user_inv && $check_user_inv->num_rows == 0) {
     $conn->query("ALTER TABLE invoices ADD user_id INT(11) AFTER id");
 }
 
+// Ensure the status column uses the updated Indonesian ENUM translations
+$conn->query("ALTER TABLE invoices MODIFY COLUMN status ENUM('Draft', 'Terkirim', 'Lunas', 'Jatuh Tempo') DEFAULT 'Draft'");
+
 // Create Settings table User specific
 $sql_settings = "CREATE TABLE IF NOT EXISTS user_settings (
     user_id INT(11) PRIMARY KEY,
@@ -73,4 +76,10 @@ $sql_settings = "CREATE TABLE IF NOT EXISTS user_settings (
     company_email VARCHAR(100) DEFAULT 'halo@perusahaan.com'
 )";
 $conn->query($sql_settings);
+
+// Add theme column to user_settings if not exists
+$check_theme = $conn->query("SHOW COLUMNS FROM user_settings LIKE 'theme'");
+if($check_theme && $check_theme->num_rows == 0) {
+    $conn->query("ALTER TABLE user_settings ADD theme VARCHAR(50) DEFAULT 'theme-default' AFTER company_email");
+}
 ?>
