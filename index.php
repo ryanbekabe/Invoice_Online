@@ -10,7 +10,7 @@ $result = $conn->query($sql);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice Manager - Dashboard</title>
+    <title>Invoice Manager - Dasbor</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -22,38 +22,39 @@ $result = $conn->query($sql);
             <span>InvoicePro</span>
         </div>
         <nav>
-            <a href="index.php" class="active"><i class="fa-solid fa-table-cells-large"></i> Dashboard</a>
-            <a href="create.php"><i class="fa-solid fa-plus"></i> New Invoice</a>
+            <a href="index.php" class="active"><i class="fa-solid fa-table-cells-large"></i> Dasbor</a>
+            <a href="create.php"><i class="fa-solid fa-plus"></i> Tagihan Baru</a>
+            <a href="settings.php"><i class="fa-solid fa-gear"></i> Pengaturan</a>
         </nav>
     </div>
 
     <main class="content">
         <header>
             <div class="header-left">
-                <h1>Dashboard</h1>
-                <p>Manage your invoices and payments</p>
+                <h1>Dasbor</h1>
+                <p>Kelola tagihan dan pembayaran Anda</p>
             </div>
             <div class="header-right">
-                <a href="create.php" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Create Invoice</a>
+                <a href="create.php" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Buat Tagihan</a>
             </div>
         </header>
 
         <section class="invoice-list-container">
             <div class="card">
                 <div class="card-header">
-                    <h2>Recent Invoices</h2>
+                    <h2>Tagihan Terbaru</h2>
                 </div>
                 <div class="table-responsive">
                     <table class="data-table">
                         <thead>
                             <tr>
-                                <th>Invoice Number</th>
-                                <th>Client Name</th>
-                                <th>Issue Date</th>
-                                <th>Due Date</th>
-                                <th>Amount</th>
+                                <th>No. Tagihan</th>
+                                <th>Klien</th>
+                                <th>Tanggal</th>
+                                <th>Jatuh Tempo</th>
+                                <th>Jumlah</th>
                                 <th>Status</th>
-                                <th>Actions</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -62,11 +63,11 @@ $result = $conn->query($sql);
                                     <tr>
                                         <td><strong><?= htmlspecialchars($row['invoice_number']) ?></strong></td>
                                         <td><?= htmlspecialchars($row['client_name']) ?></td>
-                                        <td><?= date('M d, Y', strtotime($row['issue_date'])) ?></td>
-                                        <td><?= date('M d, Y', strtotime($row['due_date'])) ?></td>
-                                        <td>$<?= number_format($row['total_amount'], 2) ?></td>
+                                        <td><?= date('d M Y', strtotime($row['issue_date'])) ?></td>
+                                        <td><?= date('d M Y', strtotime($row['due_date'])) ?></td>
+                                        <td>Rp <?= number_format($row['total_amount'], 0, ',', '.') ?></td>
                                         <td>
-                                            <span class="badge badge-<?= strtolower($row['status']) ?>">
+                                            <span class="badge badge-<?= strtolower(str_replace(' ', '-', $row['status'])) ?>">
                                                 <?= htmlspecialchars($row['status']) ?>
                                             </span>
                                         </td>
@@ -82,7 +83,7 @@ $result = $conn->query($sql);
                                 <tr>
                                     <td colspan="7" class="empty-state">
                                         <i class="fa-regular fa-folder-open empty-icon"></i>
-                                        <p>No invoices found. <a href="create.php">Create your first invoice</a>.</p>
+                                        <p>Belum ada tagihan. <a href="create.php">Buat tagihan pertama Anda</a>.</p>
                                     </td>
                                 </tr>
                             <?php endif; ?>

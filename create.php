@@ -9,7 +9,7 @@ $invoice_num = 'INV-' . date('Ymd') . '-' . rand(1000, 9999);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Invoice - InvoiceManager</title>
+    <title>Buat Tagihan - InvoiceManager</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -21,18 +21,19 @@ $invoice_num = 'INV-' . date('Ymd') . '-' . rand(1000, 9999);
             <span>InvoicePro</span>
         </div>
         <nav>
-            <a href="index.php"><i class="fa-solid fa-table-cells-large"></i> Dashboard</a>
-            <a href="create.php" class="active"><i class="fa-solid fa-plus"></i> New Invoice</a>
+            <a href="index.php"><i class="fa-solid fa-table-cells-large"></i> Dasbor</a>
+            <a href="create.php" class="active"><i class="fa-solid fa-plus"></i> Tagihan Baru</a>
+            <a href="settings.php"><i class="fa-solid fa-gear"></i> Pengaturan</a>
         </nav>
     </div>
 
     <main class="content">
         <header>
             <div class="header-left">
-                <h1>Create New Invoice</h1>
+                <h1>Buat Tagihan Baru</h1>
             </div>
             <div class="header-right">
-                <a href="index.php" class="btn btn-secondary">Cancel</a>
+                <a href="index.php" class="btn btn-secondary">Batal</a>
             </div>
         </header>
 
@@ -40,58 +41,58 @@ $invoice_num = 'INV-' . date('Ymd') . '-' . rand(1000, 9999);
             <div class="card create-form">
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Invoice Number</label>
+                        <label>No. Tagihan</label>
                         <input type="text" name="invoice_number" class="form-control" value="<?= $invoice_num ?>" readonly>
                     </div>
                     <div class="form-group">
                         <label>Status</label>
                         <select name="status" class="form-control">
                             <option value="Draft">Draft</option>
-                            <option value="Sent">Sent</option>
-                            <option value="Paid">Paid</option>
+                            <option value="Terkirim">Terkirim</option>
+                            <option value="Lunas">Lunas</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Issue Date</label>
+                        <label>Tanggal Dibuat</label>
                         <input type="date" name="issue_date" class="form-control" value="<?= date('Y-m-d') ?>" required>
                     </div>
                     <div class="form-group">
-                        <label>Due Date</label>
+                        <label>Jatuh Tempo</label>
                         <input type="date" name="due_date" class="form-control" value="<?= date('Y-m-d', strtotime('+14 days')) ?>" required>
                     </div>
                 </div>
 
                 <hr style="margin: 2rem 0; border: none; border-top: 1px solid var(--border);">
                 
-                <h3>Client Details</h3><br>
+                <h3>Detail Klien</h3><br>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Client Name</label>
-                        <input type="text" name="client_name" class="form-control" placeholder="Company or individual name" required>
+                        <label>Nama Klien</label>
+                        <input type="text" name="client_name" class="form-control" placeholder="Nama perusahaan atau individu" required>
                     </div>
                     <div class="form-group">
-                        <label>Client Email</label>
-                        <input type="email" name="client_email" class="form-control" placeholder="client@example.com">
+                        <label>Email Klien</label>
+                        <input type="email" name="client_email" class="form-control" placeholder="klien@example.com">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Client Address</label>
-                    <textarea name="client_address" class="form-control" rows="2" placeholder="Street layout, City, etc."></textarea>
+                    <label>Alamat Klien</label>
+                    <textarea name="client_address" class="form-control" rows="2" placeholder="Jalan, Kota, Kode Pos, dll."></textarea>
                 </div>
 
                 <hr style="margin: 2rem 0; border: none; border-top: 1px solid var(--border);">
 
-                <h3>Invoice Items</h3><br>
+                <h3>Item Tagihan</h3><br>
                 <table class="data-table invoice-items-table" id="itemsTable">
                     <thead>
                         <tr>
-                            <th style="width: 50%;">Description</th>
-                            <th style="width: 15%;">Qty</th>
-                            <th style="width: 20%;">Price ($)</th>
-                            <th style="width: 20%;">Total ($)</th>
+                            <th style="width: 50%;">Deskripsi</th>
+                            <th style="width: 15%;">Jml</th>
+                            <th style="width: 20%;">Harga (Rp)</th>
+                            <th style="width: 20%;">Total (Rp)</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -107,15 +108,15 @@ $invoice_num = 'INV-' . date('Ymd') . '-' . rand(1000, 9999);
                 </table>
                 <br>
                 <button type="button" class="btn btn-secondary" id="addItemBtn">
-                    <i class="fa-solid fa-plus"></i> Add Item
+                    <i class="fa-solid fa-plus"></i> Tambah Item
                 </button>
 
                 <div class="totals-section mt-4">
                     <div class="totals-box">
                         <div class="totals-row grand-total">
-                            <span>Total Due:</span>
-                            <span>$<span id="grandTotal">0.00</span></span>
-                            <input type="hidden" name="total_amount" id="totalAmountInput" value="0.00">
+                            <span>Total Tagihan:</span>
+                            <span>Rp <span id="grandTotal">0</span></span>
+                            <input type="hidden" name="total_amount" id="totalAmountInput" value="0">
                         </div>
                     </div>
                 </div>
@@ -123,13 +124,13 @@ $invoice_num = 'INV-' . date('Ymd') . '-' . rand(1000, 9999);
                 <hr style="margin: 2rem 0; border: none; border-top: 1px solid var(--border);">
                 
                 <div class="form-group">
-                    <label>Notes / Terms</label>
-                    <textarea name="notes" class="form-control" rows="3" placeholder="Thank you for your business."></textarea>
+                    <label>Catatan / Syarat</label>
+                    <textarea name="notes" class="form-control" rows="3" placeholder="Terima kasih atas kerja sama Anda."></textarea>
                 </div>
 
                 <div style="text-align: right; margin-top: 2rem;">
                     <button type="submit" class="btn btn-primary" style="padding: 1rem 2rem; font-size: 1.1rem;">
-                        <i class="fa-solid fa-check"></i> Save Invoice
+                        <i class="fa-solid fa-check"></i> Simpan Tagihan
                     </button>
                 </div>
             </div>

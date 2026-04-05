@@ -30,7 +30,7 @@ $sql_invoices = "CREATE TABLE IF NOT EXISTS invoices (
     client_address TEXT,
     issue_date DATE,
     due_date DATE,
-    status ENUM('Draft', 'Sent', 'Paid', 'Overdue') DEFAULT 'Draft',
+    status ENUM('Draft', 'Terkirim', 'Lunas', 'Jatuh Tempo') DEFAULT 'Draft',
     notes TEXT,
     total_amount DECIMAL(10,2) DEFAULT 0.00,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -48,4 +48,20 @@ $sql_items = "CREATE TABLE IF NOT EXISTS invoice_items (
     FOREIGN KEY (invoice_id) REFERENCES invoices(id) ON DELETE CASCADE
 )";
 $conn->query($sql_items);
+
+// Create Settings table
+$sql_settings = "CREATE TABLE IF NOT EXISTS settings (
+    id INT(1) PRIMARY KEY,
+    company_name VARCHAR(255) DEFAULT 'Your Company LLC',
+    company_address1 VARCHAR(255) DEFAULT '123 Business Road',
+    company_address2 VARCHAR(255) DEFAULT 'Tech City, TC 10101',
+    company_email VARCHAR(100) DEFAULT 'hello@yourcompany.com'
+)";
+$conn->query($sql_settings);
+
+// Seed default settings row if table is empty
+$check_settings = $conn->query("SELECT id FROM settings WHERE id = 1");
+if ($check_settings->num_rows == 0) {
+    $conn->query("INSERT INTO settings (id, company_name, company_address1, company_address2, company_email) VALUES (1, 'Your Company LLC', '123 Business Road', 'Tech City, TC 10101', 'hello@yourcompany.com')");
+}
 ?>

@@ -203,9 +203,9 @@ header p {
 }
 
 .badge-draft { background-color: var(--status-draft-bg); color: var(--status-draft-text); }
-.badge-sent { background-color: var(--status-sent-bg); color: var(--status-sent-text); }
-.badge-paid { background-color: var(--status-paid-bg); color: var(--status-paid-text); }
-.badge-overdue { background-color: var(--status-overdue-bg); color: var(--status-overdue-text); }
+.badge-terkirim { background-color: var(--status-sent-bg); color: var(--status-sent-text); }
+.badge-lunas { background-color: var(--status-paid-bg); color: var(--status-paid-text); }
+.badge-jatuh-tempo { background-color: var(--status-overdue-bg); color: var(--status-overdue-text); }
 
 /* Actions */
 .actions {
