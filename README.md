@@ -1,4 +1,4 @@
-# Invoice Online (InvoicePro)
+# InvoicePro (Invoice Online)
 ```
 echo "# Invoice_Online" >> README.md
 git init
@@ -8,15 +8,18 @@ git branch -M main
 git remote add origin https://github.com/ryanbekabe/Invoice_Online.git
 git push -u origin main
 ```
-Aplikasi pembuat invoice online berbasis web yang ringan, modern, dan mudah digunakan. Didesain secara khusus untuk memenuhi kebutuhan pembuatan tagihan dengan tampilan layaknya dokumen profesional premium.
+Aplikasi pembuat invoice online berbasis web yang ringan, modern, dan didesain secara khusus untuk memenuhi kebutuhan pembuatan tagihan bisnis bergaya premium di Indonesia.
 
 ## 🌟 Fitur Utama
 
-- **Desain Premium:** Antarmuka modern dan *user-friendly* dengan estetika bersih (Vanilla CSS).
-- **Pembuatan Invoice Dinamis:** Tambahkan item tagihan (barang/jasa) sebanyak yang Anda perlukan. Perhitungan subtotal dan total dilakukan secara otomatis (JavaScript).
-- **Database Auto-Setup:** Tidak perlu import file `.sql` secara manual. Sistem akan otomatis mendeteksi dan membuat database serta tabel ketika aplikasi pertama kali dibuka.
-- **Cetak ke PDF:** Fitur *Print/Save PDF* bawaan yang merender halaman invoice persis seperti lembar dokumen fisik/kertas A4 tanpa terganggu elemen UI lainnya.
-- **Dashboard Ringkas:** Lihat status tagihan (Draft, Sent, Paid) dan kelola semua riwayat invoice di satu tempat.
+- **Sistem Multi-User (SaaS Ready):** Memiliki fitur Registrasi dan Login mandiri. Setiap user memiliki ruang database (_tenant_) yang sepenuhnya dipisahkan sehingga invoice & pengaturan tidak akan tercampur dengan akun lain.
+- **Lokalisasi Indonesia (Rp):** Seluruh antarmuka telah disesuaikan dengan bahasa Indonesia secara menyeluruh, termasuk kalkulasi otomatis menggunakan format mata uang Rupiah.
+- **Manajemen Tema Profil:** Anda tidak hanya bisa mengatur nama, logo, dan profil perusahan via *Pengaturan*, tetapi juga dapat memilih warna UI favorit (tersedia kombinasi warna lembut / *Soft Color* seperti *Default Indigo, Matcha Green,* dan *Soft Rose*).
+- **Keamanan Tautan (Obfuscation ID):** Tautan cetak dokumen invoice dilengkapi fitur *hashing MD5*, sehingga pihak asing tidak bisa menebak kode ID invoice dan hanya orang yang memiliki *link*-nya yang bisa melihat tagihan tersebut.
+- **Direktori Kostumer Terpadu:** Anda bisa langsung melihat daftar klien yang sudah pernah ditagih beserta perhimpunan jumlah tagihan dan nilai pembelanjaannya melalui menu "Kostumer".
+- **Pembuatan Invoice Dinamis:** Tambahkan item tagihan sebanyak yang Anda perlukan. Perhitungan subtotal dan total dilakukan secara otomatis tanpa reload halaman (JavaScript).
+- **Cetak ke PDF Dinamis:** Fitur *Print/Save PDF* merender halaman pesanan persis seperti lembar dokumen fisik/kertas A4 tanpa terganggu kemunculan elemen tata letak website (Sidebar/Tombol).
+- **Database Auto-Migrate:** Tidak perlu import file `.sql` secara manual. Sistem akan otomatis mendeteksi, membuat tabel baru, atau melakukan alterasi perombakan skema tabel saat sistem mengalami pembaharuan versi terbaru.
 
 ## 🛠️ Tech Stack
 
@@ -39,23 +42,30 @@ Aplikasi pembuat invoice online berbasis web yang ringan, modern, dan mudah digu
    ```
    http://localhost/invoice/
    ```
-4. **Selesai!** Database bernama `invoice_app_db` beserta tabelnya akan otomatis terinstal oleh sistem saat Anda membuka halaman tersebut untuk pertama kalinya. Aplikasi sudah siap digunakan.
+4. Sistem akan otomatis mensetup database `invoice_app_db`. Anda akan disuguhkan halaman **Login**. 
+5. Klik pada tautan **Daftar di sini** untuk membuat akun baru, lalu login. Seluruh data tagihan dan tema antarmuka sepenuhnya milik akun Anda secara aman.
 
-## 📂 Struktur Direktori
+## 📂 Struktur Direktori Terbaru
 
 ```text
 c:\xampp\htdocs\invoice\
 ├── assets/
 │   ├── css/
-│   │   └── style.css       # File gaya utama (Premium UI)
+│   │   └── style.css       # File gaya utama (Premium UI & Konfigurasi Tema)
 │   └── js/
-│       └── script.js       # Logika perhitungan dinamis form invoice
+│       └── script.js       # Logika perhitungan dinamis Rupiah form invoice
 ├── config/
-│   └── db.php              # Konfigurasi database & script auto-setup tabel
-├── create.php              # Halaman form pembuatan invoice baru
-├── index.php               # Halaman Dashboard yang menampilkan list invoice
-├── save_invoice.php        # Script pemroses simpan data ke database
-├── view.php                # Halaman view/print invoice sebagai dokumen
+│   ├── auth.php            # Verifikator User & Injeksi State Tema Global
+│   └── db.php              # Koneksi, setup tabel auto-migrate
+├── login.php               # Halaman masuk user
+├── register.php            # Halaman daftar dan auto-seed entitas profil
+├── logout.php              # Penghancur sesi user
+├── create.php              # Form pembuatan invoice baru
+├── index.php               # Dashboard monitoring tagihan
+├── customers.php           # Direktori klien dan analitik tagihan
+├── save_invoice.php        # Logika simpan invoice dengan teknik URL Obfuscation
+├── settings.php            # Pengaturan parameter toko & tema aplikasi
+├── view.php                # Halaman view/print invoice
 └── README.md               # Dokumentasi proyek
 ```
 
@@ -69,4 +79,4 @@ Secara *bawaan / default*, sistem terhubung dengan kredensial instalasi bersih X
 Jika server Anda menggunakan password MySQL, silakan edit variabel `$pass` pada file `config/db.php`.
 
 ---
-*Dibuat untuk mempermudah bisnis Anda.*
+*InvoicePro — Cepat, Elegan, dan Aman.*

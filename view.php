@@ -106,6 +106,7 @@ $settings = $settings_result->fetch_assoc() ?: [
         </div>
         <nav>
             <a href="index.php"><i class="fa-solid fa-table-cells-large"></i> Dasbor</a>
+            <a href="customers.php"><i class="fa-solid fa-users"></i> Kostumer</a>
             <a href="create.php"><i class="fa-solid fa-plus"></i> Tagihan Baru</a>
             <a href="settings.php"><i class="fa-solid fa-gear"></i> Pengaturan</a>
             <a href="logout.php" style="margin-top: auto; color: #DC2626;"><i class="fa-solid fa-arrow-right-from-bracket"></i> Keluar</a>
