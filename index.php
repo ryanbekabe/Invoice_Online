@@ -1,8 +1,11 @@
 <?php
 require_once 'config/db.php';
+require_once 'config/auth.php';
+
+$user_id = $_SESSION['user_id'];
 
 // Fetch all invoices
-$sql = "SELECT * FROM invoices ORDER BY created_at DESC";
+$sql = "SELECT * FROM invoices WHERE user_id = $user_id ORDER BY created_at DESC";
 $result = $conn->query($sql);
 ?>
 <!DOCTYPE html>
@@ -25,6 +28,7 @@ $result = $conn->query($sql);
             <a href="index.php" class="active"><i class="fa-solid fa-table-cells-large"></i> Dasbor</a>
             <a href="create.php"><i class="fa-solid fa-plus"></i> Tagihan Baru</a>
             <a href="settings.php"><i class="fa-solid fa-gear"></i> Pengaturan</a>
+            <a href="logout.php" style="margin-top: auto; color: #DC2626;"><i class="fa-solid fa-arrow-right-from-bracket"></i> Keluar</a>
         </nav>
     </div>
 

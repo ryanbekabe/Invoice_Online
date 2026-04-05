@@ -1,5 +1,6 @@
 <?php
 require_once 'config/db.php';
+require_once 'config/auth.php';
 
 // Generate a random invoice number
 $invoice_num = 'INV-' . date('Ymd') . '-' . rand(1000, 9999);
@@ -24,6 +25,7 @@ $invoice_num = 'INV-' . date('Ymd') . '-' . rand(1000, 9999);
             <a href="index.php"><i class="fa-solid fa-table-cells-large"></i> Dasbor</a>
             <a href="create.php" class="active"><i class="fa-solid fa-plus"></i> Tagihan Baru</a>
             <a href="settings.php"><i class="fa-solid fa-gear"></i> Pengaturan</a>
+            <a href="logout.php" style="margin-top: auto; color: #DC2626;"><i class="fa-solid fa-arrow-right-from-bracket"></i> Keluar</a>
         </nav>
     </div>
 

@@ -1,5 +1,6 @@
 <?php
 require_once 'config/db.php';
+require_once 'config/auth.php';
 
 if (!isset($_GET['id'])) {
     header("Location: index.php");
@@ -7,8 +8,9 @@ if (!isset($_GET['id'])) {
 }
 
 $id = intval($_GET['id']);
+$user_id = $_SESSION['user_id'];
 
-$sql = "SELECT * FROM invoices WHERE id = $id";
+$sql = "SELECT * FROM invoices WHERE id = $id AND user_id = $user_id";
 $result = $conn->query($sql);
 
 if ($result->num_rows == 0) {
@@ -19,7 +21,7 @@ $invoice = $result->fetch_assoc();
 $sql_items = "SELECT * FROM invoice_items WHERE invoice_id = $id";
 $items_result = $conn->query($sql_items);
 
-$sql_settings = "SELECT * FROM settings WHERE id = 1";
+$sql_settings = "SELECT * FROM user_settings WHERE user_id = $user_id";
 $settings_result = $conn->query($sql_settings);
 $settings = $settings_result->fetch_assoc() ?: [
     'company_name' => 'Your Company LLC',
@@ -105,6 +107,7 @@ $settings = $settings_result->fetch_assoc() ?: [
             <a href="index.php"><i class="fa-solid fa-table-cells-large"></i> Dasbor</a>
             <a href="create.php"><i class="fa-solid fa-plus"></i> Tagihan Baru</a>
             <a href="settings.php"><i class="fa-solid fa-gear"></i> Pengaturan</a>
+            <a href="logout.php" style="margin-top: auto; color: #DC2626;"><i class="fa-solid fa-arrow-right-from-bracket"></i> Keluar</a>
         </nav>
     </div>
 

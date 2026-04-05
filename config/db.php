@@ -49,19 +49,28 @@ $sql_items = "CREATE TABLE IF NOT EXISTS invoice_items (
 )";
 $conn->query($sql_items);
 
-// Create Settings table
-$sql_settings = "CREATE TABLE IF NOT EXISTS settings (
-    id INT(1) PRIMARY KEY,
-    company_name VARCHAR(255) DEFAULT 'Your Company LLC',
-    company_address1 VARCHAR(255) DEFAULT '123 Business Road',
-    company_address2 VARCHAR(255) DEFAULT 'Tech City, TC 10101',
-    company_email VARCHAR(100) DEFAULT 'hello@yourcompany.com'
+// Create Users table
+$sql_users = "CREATE TABLE IF NOT EXISTS users (
+    id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)";
+$conn->query($sql_users);
+
+// Add user_id to invoices if not exists
+$check_user_inv = $conn->query("SHOW COLUMNS FROM invoices LIKE 'user_id'");
+if($check_user_inv && $check_user_inv->num_rows == 0) {
+    $conn->query("ALTER TABLE invoices ADD user_id INT(11) AFTER id");
+}
+
+// Create Settings table User specific
+$sql_settings = "CREATE TABLE IF NOT EXISTS user_settings (
+    user_id INT(11) PRIMARY KEY,
+    company_name VARCHAR(255) DEFAULT 'Perusahaan Anda',
+    company_address1 VARCHAR(255) DEFAULT 'Jl. Bisnis No. 123',
+    company_address2 VARCHAR(255) DEFAULT 'Kota Teknologi, 10101',
+    company_email VARCHAR(100) DEFAULT 'halo@perusahaan.com'
 )";
 $conn->query($sql_settings);
-
-// Seed default settings row if table is empty
-$check_settings = $conn->query("SELECT id FROM settings WHERE id = 1");
-if ($check_settings->num_rows == 0) {
-    $conn->query("INSERT INTO settings (id, company_name, company_address1, company_address2, company_email) VALUES (1, 'Your Company LLC', '123 Business Road', 'Tech City, TC 10101', 'hello@yourcompany.com')");
-}
 ?>

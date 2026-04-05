@@ -1,27 +1,30 @@
 <?php
 require_once 'config/db.php';
+require_once 'config/auth.php';
 
 $success_msg = '';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $user_id = $_SESSION['user_id'];
     $company_name = $conn->real_escape_string($_POST['company_name']);
     $company_address1 = $conn->real_escape_string($_POST['company_address1']);
     $company_address2 = $conn->real_escape_string($_POST['company_address2']);
     $company_email = $conn->real_escape_string($_POST['company_email']);
 
-    $update = "UPDATE settings SET 
+    $update = "UPDATE user_settings SET 
                company_name = '$company_name',
                company_address1 = '$company_address1',
                company_address2 = '$company_address2',
                company_email = '$company_email'
-               WHERE id = 1";
+               WHERE user_id = $user_id";
     
     if($conn->query($update)) {
         $success_msg = "Pengaturan berhasil disimpan!";
     }
 }
 
-$setting_res = $conn->query("SELECT * FROM settings WHERE id = 1");
+$user_id = $_SESSION['user_id'];
+$setting_res = $conn->query("SELECT * FROM user_settings WHERE user_id = $user_id");
 $settings = $setting_res->fetch_assoc();
 ?>
 <!DOCTYPE html>
@@ -44,6 +47,7 @@ $settings = $setting_res->fetch_assoc();
             <a href="index.php"><i class="fa-solid fa-table-cells-large"></i> Dasbor</a>
             <a href="create.php"><i class="fa-solid fa-plus"></i> Tagihan Baru</a>
             <a href="settings.php" class="active"><i class="fa-solid fa-gear"></i> Pengaturan</a>
+            <a href="logout.php" style="margin-top: auto; color: #DC2626;"><i class="fa-solid fa-arrow-right-from-bracket"></i> Keluar</a>
         </nav>
     </div>
 
